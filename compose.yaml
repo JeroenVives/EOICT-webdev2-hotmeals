@@ -5,7 +5,7 @@ services:
     ports:
      - 3307:3306
     volumes:
-     - ./db/config:/config
+     - ./db/config:/var/lib/mysql
     environment:
      - MARIADB_ROOT_PASSWORD=root
      - TZ=Europe/Brussels
