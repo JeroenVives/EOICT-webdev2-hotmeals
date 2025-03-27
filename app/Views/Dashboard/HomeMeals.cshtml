@@ -1,0 +1,37 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model HomeMealsViewModel
+
+@{
+    ViewData["Title"] = "Home Meals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form method="get" class="form-control">
+    <label for="class-id" class="form-label">Choose a class:</label>
+    <select id="class-id" name="class-id" asp-items="Model.ClassChoices" class="form-select">
+        <option value=""> -- Select a class -- </option>
+    </select>
+    <button type="submit" class="btn btn-primary mt-2">Show</button>
+</form>
+@if (Model.ChildrenNames.Count != 0)
+{
+    <table class="table m-3">
+        <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ((var firstName, var lastName) in Model.ChildrenNames)
+            {
+                <tr>
+                    <td>@firstName</td>
+                    <td>@lastName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

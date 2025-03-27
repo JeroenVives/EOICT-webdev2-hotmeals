@@ -1,0 +1,22 @@
+services:
+  db:
+    container_name: db
+    image: mariadb
+    ports:
+     - 3307:3306
+    volumes:
+     - ./db/config:/config
+    environment:
+     - MARIADB_ROOT_PASSWORD=root
+     - TZ=Europe/Brussels
+    restart: unless-stopped
+  dbadmin:
+    container_name: dbadmin
+    image: phpmyadmin
+    ports:
+     - 81:80
+    environment:
+     - PMA_HOST=db
+    depends_on:
+     - db
+    restart: unless-stopped
