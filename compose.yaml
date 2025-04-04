@@ -5,7 +5,7 @@ services:
       context: ./app
     image: vives/jr/webdev2:app
     ports:
-      - 5001:80
+      - 5001:8080
     volumes:
     - /etc/localtime:/etc/localtime:ro
     depends_on:
