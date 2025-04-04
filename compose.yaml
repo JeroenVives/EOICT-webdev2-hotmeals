@@ -1,4 +1,16 @@
 services:
+  app:
+    container_name: app
+    build:
+      context: ./app
+    image: vives/jr/webdev2:app
+    ports:
+      - 5001:80
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    depends_on:
+     - db
+    restart: unless-stopped
   db:
     container_name: db
     image: mariadb
