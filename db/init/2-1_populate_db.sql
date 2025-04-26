@@ -14,7 +14,7 @@ INSERT INTO `allergens` (`id`, `description`) VALUES
 (2, 'fish'),
 (3, 'gluten');
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`) VALUES
+INSERT INTO `AspNetUsers` (`id`, `first_name`, `last_name`) VALUES
 (1, 'Jeroen', 'Reinenbergh'),
 (2, 'Milo', 'Reinenbergh'),
 (3, 'Theo', 'Reinenbergh'),

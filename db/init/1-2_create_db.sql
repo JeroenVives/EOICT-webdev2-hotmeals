@@ -91,13 +91,6 @@ CREATE TABLE `teachers` (
   `class_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
-
-
 ALTER TABLE `allergens`
   ADD PRIMARY KEY (`id`);
 
@@ -153,10 +146,6 @@ ALTER TABLE `teachers`
   ADD PRIMARY KEY (`staff_id`,`class_id`),
   ADD KEY `fk__teachers__class_id` (`class_id`);
 
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
-
 ALTER TABLE `allergens`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
@@ -169,10 +158,6 @@ ALTER TABLE `hot_meals`
 ALTER TABLE `ingredients`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-
 ALTER TABLE `allergen_presences`
   ADD CONSTRAINT `fk__allergen_presences__allergen_id` FOREIGN KEY (`allergen_id`) REFERENCES `allergens` (`id`),
   ADD CONSTRAINT `fk__allergen_presences__ingredient_id` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`);
@@ -183,7 +168,7 @@ ALTER TABLE `allergen_sensitivities`
 
 ALTER TABLE `children`
   ADD CONSTRAINT `fk__children__class_id` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
-  ADD CONSTRAINT `fk__children__user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `fk__children__user_id` FOREIGN KEY (`user_id`) REFERENCES `aspnetusers` (`id`);
 
 ALTER TABLE `hot_meal_choices`
   ADD CONSTRAINT `fk__hot_meal_choices__meal_choice_composite` FOREIGN KEY (`date`,`meal_choice_child_id`) REFERENCES `meal_choices` (`date`, `child_id`),
@@ -201,17 +186,18 @@ ALTER TABLE `parental_relations`
   ADD CONSTRAINT `fk__parental_relations__parent_id` FOREIGN KEY (`parent_id`) REFERENCES `parents` (`user_id`);
 
 ALTER TABLE `parents`
-  ADD CONSTRAINT `fk__parents__user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `fk__parents__user_id` FOREIGN KEY (`user_id`) REFERENCES `aspnetusers` (`id`);
 
 ALTER TABLE `scheduled_hot_meals`
   ADD CONSTRAINT `fk__scheduled_hot_meals__hot_meal_id` FOREIGN KEY (`hot_meal_id`) REFERENCES `hot_meals` (`id`);
 
 ALTER TABLE `staff`
-  ADD CONSTRAINT `fk__staff__user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `fk__staff__user_id` FOREIGN KEY (`user_id`) REFERENCES `aspnetusers` (`id`);
 
 ALTER TABLE `teachers`
   ADD CONSTRAINT `fk__teachers__class_id` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
   ADD CONSTRAINT `fk__teachers__staff_id` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`user_id`);
+  
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
