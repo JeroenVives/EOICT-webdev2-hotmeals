@@ -23,7 +23,7 @@ namespace HotMeals.Controllers
         public async Task<ActionResult<UserDto>> CreateUser(UserDto userDto)
         {
             var userDbo = userDto.ToDbo();
-            await _schoolContext.Users.AddAsync(userDbo);
+            await _schoolContext.SchoolUsers.AddAsync(userDbo);
             await _schoolContext.SaveChangesAsync();
             return CreatedAtAction
                 (
@@ -37,7 +37,7 @@ namespace HotMeals.Controllers
         [Route("users/{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            var userDbo = await _schoolContext.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+            var userDbo = await _schoolContext.SchoolUsers.Where(u => u.Id == id).FirstOrDefaultAsync();
             if (userDbo == null)
             {
                 return NotFound();
@@ -79,7 +79,7 @@ namespace HotMeals.Controllers
             var childDbo = childDto.ToDbo();
             await _schoolContext.Children.AddAsync(childDbo);
             await _schoolContext.SaveChangesAsync();
-            var userDbo = await _schoolContext.Users.Where(u => u.Id == childDto.UserId).FirstOrDefaultAsync();
+            var userDbo = await _schoolContext.SchoolUsers.Where(u => u.Id == childDto.UserId).FirstOrDefaultAsync();
             if (userDbo == null)
             {
                 return BadRequest($"User ID {childDto.UserId} does not exist.");

@@ -7,9 +7,9 @@ namespace HotMeals.Models.DTOs
         public int? Id { get; set; }
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
-        public User ToDbo()
+        public SchoolUser ToDbo()
         {
-            var userDbo = new User
+            var userDbo = new SchoolUser
             {
                 FirstName = FirstName,
                 LastName = LastName
@@ -20,7 +20,7 @@ namespace HotMeals.Models.DTOs
             }
             return userDbo;
         }
-        public static UserDto FromDbo(User userDbo)
+        public static UserDto FromDbo(SchoolUser userDbo)
         {
             return new UserDto
             {

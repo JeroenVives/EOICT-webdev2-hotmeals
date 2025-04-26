@@ -15,7 +15,7 @@ public partial class Child
 
     public virtual ICollection<MealChoice> MealChoices { get; set; } = new List<MealChoice>();
 
-    public virtual User User { get; set; } = null!;
+    public virtual SchoolUser User { get; set; } = null!;
 
     public virtual ICollection<Allergen> Allergens { get; set; } = new List<Allergen>();
 

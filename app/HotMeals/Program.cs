@@ -5,11 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("SchoolDatabase") ?? throw new InvalidOperationException("Connection string 'SchoolContext' not found.");
 
-builder.Services
-    .AddDbContext<SchoolContext>(options =>
-        options.UseMySQL(connectionString)
-    )
-    .AddControllersWithViews();
+builder.Services.AddDbContext<SchoolContext>(options => options.UseMySQL(connectionString));
+builder.Services.AddControllersWithViews();
+builder.Services.AddDefaultIdentity<SchoolUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<SchoolContext>();
 
 var app = builder.Build();
 

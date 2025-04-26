@@ -42,7 +42,7 @@ namespace HotMeals.Controllers
         [Route("homemeals")]
         public async Task<IActionResult> HomeMeals([FromQuery(Name = "class-id")] int? classId)
         {
-            var childrenUsers = new List<User>();
+            var childrenUsers = new List<SchoolUser>();
             if (classId != null)
             {
                 childrenUsers = await _schoolContext.MealChoices.Include(m => m.Child).ThenInclude(c => c.User).Where(m => m.Date.Date == DateTime.Now.Date && m.Child.ClassId == classId && m.Choice == MealChoiceEnum.home.ToString()).Select(m => m.Child.User).ToListAsync();
