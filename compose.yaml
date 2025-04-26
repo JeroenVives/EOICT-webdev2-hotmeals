@@ -1,6 +1,6 @@
 services:
-  app:
-    container_name: app
+  dotnet-app:
+    container_name: dotnet-app
     build:
       context: ./app
     image: vives/jr/webdev2:app
@@ -9,10 +9,10 @@ services:
     volumes:
     - /etc/localtime:/etc/localtime:ro
     depends_on:
-     - db
+     - dotnet-db
     restart: unless-stopped
-  db:
-    container_name: db
+  dotnet-db:
+    container_name: dotnet-db
     image: mariadb
     ports:
      - 3307:3306
@@ -23,13 +23,13 @@ services:
      - MARIADB_ROOT_PASSWORD=root
      - TZ=Europe/Brussels
     restart: unless-stopped
-  dbadmin:
-    container_name: dbadmin
+  dotnet-dbadmin:
+    container_name: dotnet-dbadmin
     image: phpmyadmin
     ports:
      - 81:80
     environment:
-     - PMA_HOST=db
+     - PMA_HOST=dotnet-db
     depends_on:
-     - db
+     - dotnet-db
     restart: unless-stopped
