@@ -53,8 +53,8 @@ namespace HotMeals.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "e05f4bb4-62dc-4170-a9fa-0172f54586b7", "teacher@vives.be", false, "Anna", "Bossuyt", false, null, "TEACHER@VIVES.BE", "TEACHER@VIVES.BE", "AQAAAAIAAYagAAAAEAhyZ/TXEZ7ojfqvWqTSgImBG4OGao7NR7dVym4SQxB2jcQNk30ybyXd9G7K0kA/Jg==", null, false, null, false, "teacher@vives.be" },
-                    { 2, 0, "b00f8a6b-da51-4fd7-8729-b2836ac7e869", "manager@vives.be", false, "Chris", "De Donder", false, null, "MANAGER@VIVES.BE", "MANAGER@VIVES.BE", "AQAAAAIAAYagAAAAECtZdC1xhw7QuAkIC5p4rdeshVq7VppWY+kOiYS/nvOhU4YX2ExG7/iFOdyooTChAg==", null, false, null, false, "manager@vives.be" }
+                    { 1, 0, "9a4256cb-a4b9-466d-93b7-81a62ca37479", "teacher@vives.be", false, "Anna", "Bossuyt", false, null, "TEACHER@VIVES.BE", "TEACHER@VIVES.BE", "AQAAAAIAAYagAAAAENY7sn7UdjrkQvtIQO2y0EvBGNX7zFifSAo9nVR33zxwpDIWvL8xjv2udJmRR3IuvA==", null, false, "911ab20b-113a-4227-a452-e4b88210a8b8", false, "teacher@vives.be" },
+                    { 2, 0, "e417fcb2-8acd-4d42-ade8-a00dc6be2048", "manager@vives.be", false, "Chris", "De Donder", false, null, "MANAGER@VIVES.BE", "MANAGER@VIVES.BE", "AQAAAAIAAYagAAAAEOmevyJITYF3oFCl/LMGYjpw1+PmcNceFrM3dEFoQVTEy38rmlrf2YwN66vKQA41Zg==", null, false, "06e2267b-668a-4b1d-9ccf-da7bec0c0c94", false, "manager@vives.be" }
                 });
 
             migrationBuilder.InsertData(

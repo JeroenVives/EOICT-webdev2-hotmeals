@@ -63,7 +63,8 @@ public partial class SchoolContext : IdentityDbContext<SchoolUser, IdentityRole<
             NormalizedUserName = normalizedTeacherEmail,
             Email = teacherEmail,
             NormalizedEmail = normalizedTeacherEmail,
-            PasswordHash = hasher.HashPassword(null, "Teach123!")
+            PasswordHash = hasher.HashPassword(null, "Teach123!"),
+            SecurityStamp = Guid.NewGuid().ToString()
         };
 
         var managerEmail = "manager@vives.be";
@@ -77,7 +78,8 @@ public partial class SchoolContext : IdentityDbContext<SchoolUser, IdentityRole<
             NormalizedUserName = normalizedManagerEmail,
             Email = managerEmail,
             NormalizedEmail = normalizedManagerEmail,
-            PasswordHash = hasher.HashPassword(null, "Manage123!")
+            PasswordHash = hasher.HashPassword(null, "Manage123!"),
+            SecurityStamp = Guid.NewGuid().ToString()
         };
 
         modelBuilder.Entity<SchoolUser>().HasData(teacher, manager);

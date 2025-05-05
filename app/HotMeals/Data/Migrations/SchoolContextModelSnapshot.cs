@@ -346,7 +346,7 @@ namespace HotMeals.Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e05f4bb4-62dc-4170-a9fa-0172f54586b7",
+                            ConcurrencyStamp = "9a4256cb-a4b9-466d-93b7-81a62ca37479",
                             Email = "teacher@vives.be",
                             EmailConfirmed = false,
                             FirstName = "Anna",
@@ -354,8 +354,9 @@ namespace HotMeals.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TEACHER@VIVES.BE",
                             NormalizedUserName = "TEACHER@VIVES.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAhyZ/TXEZ7ojfqvWqTSgImBG4OGao7NR7dVym4SQxB2jcQNk30ybyXd9G7K0kA/Jg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENY7sn7UdjrkQvtIQO2y0EvBGNX7zFifSAo9nVR33zxwpDIWvL8xjv2udJmRR3IuvA==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "911ab20b-113a-4227-a452-e4b88210a8b8",
                             TwoFactorEnabled = false,
                             UserName = "teacher@vives.be"
                         },
@@ -363,7 +364,7 @@ namespace HotMeals.Data.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b00f8a6b-da51-4fd7-8729-b2836ac7e869",
+                            ConcurrencyStamp = "e417fcb2-8acd-4d42-ade8-a00dc6be2048",
                             Email = "manager@vives.be",
                             EmailConfirmed = false,
                             FirstName = "Chris",
@@ -371,8 +372,9 @@ namespace HotMeals.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER@VIVES.BE",
                             NormalizedUserName = "MANAGER@VIVES.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAECtZdC1xhw7QuAkIC5p4rdeshVq7VppWY+kOiYS/nvOhU4YX2ExG7/iFOdyooTChAg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOmevyJITYF3oFCl/LMGYjpw1+PmcNceFrM3dEFoQVTEy38rmlrf2YwN66vKQA41Zg==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "06e2267b-668a-4b1d-9ccf-da7bec0c0c94",
                             TwoFactorEnabled = false,
                             UserName = "manager@vives.be"
                         });
