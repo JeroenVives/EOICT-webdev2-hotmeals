@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_MinimalLayout.cshtml";
+    var identityResult = ViewBag.IdentityResult;
+}
+
+@if (identityResult.Succeeded)
+{
+    <p>Registration complete!</p>
+}
+else {
+    <p>The following errors have occurred:</p>
+    <ul>
+        @foreach (var e in identityResult.Errors)
+        {
+            <li>[@e.Code] @e.Description</li>
+        }
+    </ul>
+}

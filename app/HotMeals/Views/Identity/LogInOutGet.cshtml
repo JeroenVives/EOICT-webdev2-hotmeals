@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Log in/out";
+    Layout = "~/Views/Shared/_MinimalLayout.cshtml";
+    var user = ViewBag.User;
+}
+
+@if (user == null)
+{
+    <form asp-controller="Identity" asp-action="LogInPost" method="post" class="form-control">
+        <label for="email-address" class="form-label">Email:</label>
+        <input type="email" id="email-address" name="email-address" class="form-control" required>
+        <label for="password" class="form-label">Password:</label>
+        <input type="password" id="password" name="password" class="form-control" required>
+        <button type="submit" class="btn btn-primary mt-2">Log in</button>
+    </form>
+}
+else
+{
+    <form asp-controller="Identity" asp-action="LogOutPost" method="post">
+        <button type="submit" class="btn btn-primary mt-2">Log out</button>
+    </form>
+}

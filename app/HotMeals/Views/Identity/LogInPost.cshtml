@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_MinimalLayout.cshtml";
+    var signInResult = ViewBag.SignInResult;
+    var user = ViewBag.User;
+}
+
+@if (signInResult.Succeeded)
+{
+    <p>Welcome, @user.FirstName!</p>
+}
+else if (signInResult.IsLockedOut) {
+    <p>You have been locked out of your account. Please contact an administrator to resolve the issue.</p>
+}
+else if (signInResult.IsNotAllowed)
+{
+    <p>You are not allowed to log into this account. Please contact an administrator for more information.</p>
+}
+else
+{
+    <p>Login attempt failed.</p>
+}

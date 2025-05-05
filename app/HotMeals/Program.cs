@@ -7,7 +7,7 @@ var connectionString = builder.Configuration.GetConnectionString("SchoolDatabase
 
 builder.Services.AddDbContext<SchoolContext>(options => options.UseMySQL(connectionString));
 builder.Services.AddControllersWithViews();
-builder.Services.AddDefaultIdentity<SchoolUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<SchoolUser>()
                 .AddEntityFrameworkStores<SchoolContext>();
 
 var app = builder.Build();
