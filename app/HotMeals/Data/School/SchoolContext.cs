@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HotMeals.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,13 +7,12 @@ namespace HotMeals.Data.School;
 
 public partial class SchoolContext : IdentityDbContext<SchoolUser, IdentityRole<int>, int>
 {
-    public SchoolContext()
-    {
-    }
+    private readonly IConfiguration _configuration;
 
-    public SchoolContext(DbContextOptions<SchoolContext> options)
+    public SchoolContext(DbContextOptions<SchoolContext> options, IConfiguration configuration)
         : base(options)
     {
+        _configuration = configuration;
     }
 
     public virtual DbSet<Allergen> Allergens { get; set; }
@@ -41,9 +39,49 @@ public partial class SchoolContext : IdentityDbContext<SchoolUser, IdentityRole<
 
     public virtual DbSet<SchoolUser> SchoolUsers { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        var connectionString = _configuration.GetConnectionString("SchoolDatabase") ?? throw new InvalidOperationException("Connection string 'SchoolContext' not found.");
+        optionsBuilder.UseMySQL(connectionString);
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        var hasher = new PasswordHasher<IdentityUser>();
+
+        var teacherEmail = "teacher@vives.be";
+        var normalizedTeacherEmail = teacherEmail.ToUpperInvariant();
+        var teacher = new SchoolUser
+        {
+            Id = 1,
+            FirstName = "Anna",
+            LastName = "Bossuyt",
+            UserName = teacherEmail,
+            NormalizedUserName = normalizedTeacherEmail,
+            Email = teacherEmail,
+            NormalizedEmail = normalizedTeacherEmail,
+            PasswordHash = hasher.HashPassword(null, "Teach123!")
+        };
+
+        var managerEmail = "manager@vives.be";
+        var normalizedManagerEmail = managerEmail.ToUpperInvariant();
+        var manager = new SchoolUser
+        {
+            Id = 2,
+            FirstName = "Chris",
+            LastName = "De Donder",
+            UserName = managerEmail,
+            NormalizedUserName = normalizedManagerEmail,
+            Email = managerEmail,
+            NormalizedEmail = normalizedManagerEmail,
+            PasswordHash = hasher.HashPassword(null, "Manage123!")
+        };
+
+        modelBuilder.Entity<SchoolUser>().HasData(teacher, manager);
+
         modelBuilder.Entity<Allergen>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -370,6 +408,9 @@ public partial class SchoolContext : IdentityDbContext<SchoolUser, IdentityRole<
                             .HasColumnType("int(11)")
                             .HasColumnName("class_id");
                     });
+            entity.HasData(
+                new Staff { UserId = teacher.Id, Role = RoleEnum.teaching.ToString() },
+                new Staff { UserId = manager.Id, Role = RoleEnum.management.ToString() });
         });
 
         OnModelCreatingPartial(modelBuilder);
