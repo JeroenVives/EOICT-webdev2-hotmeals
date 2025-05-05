@@ -1,6 +1,7 @@
 ﻿using HotMeals.Data.School;
 using HotMeals.Models.Enums;
 using HotMeals.Models.Views;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,7 @@ namespace HotMeals.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Policy = "TeacherRole")]
         [Route("homemeals")]
         public async Task<IActionResult> HomeMeals([FromQuery(Name = "class-id")] int? classId)
         {

@@ -1,0 +1,11 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Access denied";
+    Layout = "~/Views/Shared/_MinimalLayout.cshtml";
+    var path = ViewBag.Path;
+}
+
+<p>You do not have access to the following path: "@path".</p>
