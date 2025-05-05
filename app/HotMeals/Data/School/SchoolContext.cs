@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotMeals.Data.School;
 
-public partial class SchoolContext : IdentityDbContext<SchoolUser, IdentityRole<int>, int>
+public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
 {
     private readonly IConfiguration _configuration;
 
