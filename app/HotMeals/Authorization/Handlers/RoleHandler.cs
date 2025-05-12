@@ -1,6 +1,5 @@
 ﻿using HotMeals.Authorization.Requirements;
 using HotMeals.Data.School;
-using HotMeals.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +20,7 @@ namespace HotMeals.Authorization.Handlers
             if (userName == null)
                 return;
             var user = await _schoolContext.Users.Include(u => u.Staff).FirstOrDefaultAsync(u => u.UserName == userName);
-            if (user != null && user.Staff != null && user.Staff.Role == RoleEnum.teaching.ToString())
+            if (user != null && user.Staff != null && user.Staff.Role == requirement.Role.ToString())
             {
                 context.Succeed(requirement);
             }
