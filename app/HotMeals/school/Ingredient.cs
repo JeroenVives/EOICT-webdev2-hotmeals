@@ -12,4 +12,8 @@ public partial class Ingredient
     public string Type { get; set; } = null!;
 
     public string UnitOfMeasurement { get; set; } = null!;
+
+    public virtual ICollection<MealIngredient> MealIngredients { get; set; } = new List<MealIngredient>();
+
+    public virtual ICollection<Allergen> Allergens { get; set; } = new List<Allergen>();
 }

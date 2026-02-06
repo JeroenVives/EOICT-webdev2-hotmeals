@@ -10,4 +10,8 @@ public partial class HotMealChoice
     public int MealChoiceChildId { get; set; }
 
     public int HotMealId { get; set; }
+
+    public virtual MealChoice MealChoice { get; set; } = null!;
+
+    public virtual ScheduledHotMeal ScheduledHotMeal { get; set; } = null!;
 }

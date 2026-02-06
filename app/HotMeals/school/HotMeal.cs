@@ -10,4 +10,8 @@ public partial class HotMeal
     public string Description { get; set; } = null!;
 
     public string Recipe { get; set; } = null!;
+
+    public virtual ICollection<MealIngredient> MealIngredients { get; set; } = new List<MealIngredient>();
+
+    public virtual ICollection<ScheduledHotMeal> ScheduledHotMeals { get; set; } = new List<ScheduledHotMeal>();
 }
