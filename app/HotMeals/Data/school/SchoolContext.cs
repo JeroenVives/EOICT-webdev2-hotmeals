@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace HotMeals.school;
+namespace HotMeals.Data.school;
 
 public partial class SchoolContext : DbContext
 {
