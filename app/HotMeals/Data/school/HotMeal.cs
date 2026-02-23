@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace HotMeals.Data.school;
+﻿namespace HotMeals.Data.School;
 
 public partial class HotMeal
 {

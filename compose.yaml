@@ -1,6 +1,6 @@
 services:
-  db:
-    container_name: db
+  dotnet-hotMeals-db:
+    container_name: dotnet-hotMeals-db
     image: mariadb
     ports:
      - 3307:3306
@@ -12,13 +12,13 @@ services:
      - MARIADB_DATABASE=school
      - TZ=Europe/Brussels
     restart: unless-stopped
-  dbadmin:
-    container_name: dbadmin
+  dotnet-hotMeals-dbadmin:
+    container_name: dotnet-hotMeals-dbadmin
     image: phpmyadmin
     ports:
      - 81:80
     environment:
-     - PMA_HOST=db
+     - PMA_HOST=dotnet-hotMeals-db
     depends_on:
-     - db
+     - dotnet-hotMeals-db
     restart: unless-stopped

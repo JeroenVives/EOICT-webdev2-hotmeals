@@ -1,4 +1,4 @@
-using HotMeals.Data.school;
+using HotMeals.Data.School;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

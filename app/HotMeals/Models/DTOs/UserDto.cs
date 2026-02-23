@@ -1,7 +1,6 @@
-﻿using HotMeals.Data.school;
-using System.ComponentModel.DataAnnotations;
+﻿using HotMeals.Data.School;
 
-namespace HotMeals.Models
+namespace HotMeals.Models.DTOs
 {
     public class UserDto
     {

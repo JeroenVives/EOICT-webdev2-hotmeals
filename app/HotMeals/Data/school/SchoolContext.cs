@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace HotMeals.Data.school;
+namespace HotMeals.Data.School;
 
 public partial class SchoolContext : DbContext
 {
