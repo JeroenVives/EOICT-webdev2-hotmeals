@@ -6,7 +6,7 @@ namespace HotMeals.Models.DTOs
     {
         public int UserId { get; set; }
         public int ClassId { get; set; }
-        public string FoodPreference { get; set; } = null!;
+        public required string FoodPreference { get; set; }
         public Child ToDbo()
         {
             var childDbo = new Child

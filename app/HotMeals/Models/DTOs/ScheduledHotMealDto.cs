@@ -5,7 +5,7 @@ namespace HotMeals.Models.DTOs
     public class ScheduledHotMealDto
     {
         public DateTime Date { get; set; }
-        public HotMealDto HotMeal { get; set; } = null!;
+        public required HotMealDto HotMeal { get; set; }
         public ScheduledHotMeal ToDbo()
         {
             return new ScheduledHotMeal

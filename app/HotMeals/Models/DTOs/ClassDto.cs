@@ -5,7 +5,7 @@ namespace HotMeals.Models.DTOs
     public class ClassDto
     {
         public int? Id { get; set; }
-        public string Description { get; set; } = null!;
+        public required string Description { get; set; }
         public Class ToDbo()
         {
             var classDbo = new Class

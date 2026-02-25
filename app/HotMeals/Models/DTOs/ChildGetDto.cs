@@ -5,9 +5,9 @@ namespace HotMeals.Models.DTOs
 {
     public class ChildGetDto
     {
-        public UserDto User { get; set; } = null!;
-        public ClassDto Class { get; set; } = null!;
-        public string FoodPreference { get; set; } = null!;
+        public required UserDto User { get; set; }
+        public required ClassDto Class { get; set; }
+        public required string FoodPreference { get; set; }
         public static ChildGetDto FromDbo(Child childDbo)
         {
             if (!Enum.TryParse(childDbo.FoodPreference, out FoodProfileEnum foodPreference))
