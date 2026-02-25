@@ -5,9 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddDbContext<SchoolContext>(options => options.UseMySQL())
-    .AddControllers();
+    .AddControllersWithViews();
 
 var app = builder.Build();
+
+app.UseStaticFiles();
 
 app.MapControllers();
 
