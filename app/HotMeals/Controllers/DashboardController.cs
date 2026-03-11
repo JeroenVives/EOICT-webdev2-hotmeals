@@ -1,4 +1,5 @@
 ﻿using HotMeals.Data.School;
+using HotMeals.Models.Enums;
 using HotMeals.Models.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -32,6 +33,22 @@ namespace HotMeals.Controllers
             {
                 HotMealCounts = scheduledHotMeals.Select(s => (s.HotMeal.Description, s.HotMealChoices.Count)).ToList(),
                 DateChoices = await _schoolContext.ScheduledHotMeals.Select(s => s.Date).Distinct().Select(d => d.ToString(dateFormat)).Select(ds => new SelectListItem { Value = ds, Text = ds, Selected = ds == dateString }).ToListAsync(),
+            };
+            return View(viewModel);
+        }
+
+        [Route("homemeals")]
+        public async Task<IActionResult> HomeMeals([FromQuery(Name = "class-id")] int? classId)
+        {
+            var childrenUsers = new List<User>();
+            if (classId != null)
+            {
+                childrenUsers = await _schoolContext.MealChoices.Include(m => m.Child).ThenInclude(c => c.User).Where(m => m.Date.Date == DateTime.Now.Date && m.Child.ClassId == classId && m.Choice == MealChoiceEnum.home.ToString()).Select(m => m.Child.User).ToListAsync();
+            }
+            var viewModel = new HomeMealsViewModel
+            {
+                ChildrenNames = childrenUsers.Select(u => (u.FirstName, u.LastName)).ToList(),
+                ClassChoices = await _schoolContext.Classes.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Description, Selected = c.Id == classId }).ToListAsync(),
             };
             return View(viewModel);
         }
