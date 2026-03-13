@@ -1,4 +1,18 @@
 services:
+  dotnet-hotMeals-app:
+    container_name: dotnet-hotMeals-app
+    build:
+      context: ./app
+    image: vives/jr/webdev2:dotnet-hotMeals-app
+    ports:
+      - 5001:8080
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    environment:
+     - TZ=Europe/Brussels
+    depends_on:
+     - dotnet-hotMeals-db
+    restart: unless-stopped
   dotnet-hotMeals-db:
     container_name: dotnet-hotMeals-db
     image: mariadb
