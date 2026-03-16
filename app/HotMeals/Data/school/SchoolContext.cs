@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotMeals.Data.School;
 
-public partial class SchoolContext : DbContext
+public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
 {
     public SchoolContext()
     {
@@ -35,10 +36,12 @@ public partial class SchoolContext : DbContext
 
     public virtual DbSet<Staff> Staff { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<SchoolUser> SchoolUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Allergen>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -377,23 +380,6 @@ public partial class SchoolContext : DbContext
                             .HasColumnType("int(11)")
                             .HasColumnName("class_id");
                     });
-        });
-
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
-
-            entity.ToTable("users");
-
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
-            entity.Property(e => e.FirstName)
-                .HasMaxLength(255)
-                .HasColumnName("first_name");
-            entity.Property(e => e.LastName)
-                .HasMaxLength(255)
-                .HasColumnName("last_name");
         });
 
         OnModelCreatingPartial(modelBuilder);

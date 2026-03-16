@@ -1,9 +1,9 @@
-﻿namespace HotMeals.Data.School;
+﻿using Microsoft.AspNetCore.Identity;
 
-public partial class User
+namespace HotMeals.Data.School;
+
+public partial class SchoolUser : IdentityUser<int>
 {
-    public int Id { get; set; }
-
     public string FirstName { get; set; } = null!;
 
     public string LastName { get; set; } = null!;
