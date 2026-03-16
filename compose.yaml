@@ -16,8 +16,6 @@ services:
   dotnet-hotMeals-db:
     container_name: dotnet-hotMeals-db
     image: mariadb
-    ports:
-     - 3307:3306
     volumes:
      - ./db/config:/var/lib/mysql
      - ./db/init:/docker-entrypoint-initdb.d
@@ -30,7 +28,7 @@ services:
     container_name: dotnet-hotMeals-dbadmin
     image: phpmyadmin
     ports:
-     - 81:80
+     - 82:80
     environment:
      - PMA_HOST=dotnet-hotMeals-db
     depends_on:
