@@ -2,6 +2,7 @@
 using HotMeals.Models.Views;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace HotMeals.Controllers
 {
@@ -46,22 +47,30 @@ namespace HotMeals.Controllers
 
         [HttpGet]
         [Route("loginout")]
-        public async Task<IActionResult> LogInOutGet()
+        public async Task<IActionResult> LogInOutGet([FromQuery(Name = "ReturnUrl")] string? redirectPath)
         {
             var user = await _userManager.GetUserAsync(User);
             ViewBag.User = user;
+            ViewBag.RedirectPath = redirectPath;
             return View();
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> LogInPost([FromForm(Name = "email-address")] string email, string password)
+        public async Task<IActionResult> LogInPost([FromForm(Name = "email-address")] string email, string password, [FromForm(Name = "redirect-path")] string? redirectPath)
         {
             var signInResult = await _signInManager.PasswordSignInAsync(email, password, false, false);
-            ViewBag.SignInResult = signInResult;
-            var user = await _userManager.GetUserAsync(User);
-            ViewBag.User = user;
-            return View();
+            if (!string.IsNullOrEmpty(redirectPath) && signInResult.Succeeded)
+            {
+                return Redirect(redirectPath);
+            }
+            else
+            {
+                ViewBag.SignInResult = signInResult;
+                var user = await _userManager.GetUserAsync(User);
+                ViewBag.User = user;
+                return View();
+            }
         }
 
         [HttpPost]
@@ -69,6 +78,14 @@ namespace HotMeals.Controllers
         public async Task<IActionResult> LogOutPost()
         {
             await _signInManager.SignOutAsync();
+            return View();
+        }
+
+        [HttpGet]
+        [Route("accessdenied")]
+        public ActionResult AccessDenied([FromQuery(Name = "ReturnUrl")] string path)
+        {
+            ViewBag.Path = path;
             return View();
         }
     }

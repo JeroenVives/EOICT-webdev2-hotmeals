@@ -6,6 +6,7 @@
     ViewData["Title"] = "Log in/out";
     Layout = "~/Views/Shared/_MinimalLayout.cshtml";
     var user = ViewBag.User;
+    var redirectPath = ViewBag.RedirectPath;
 }
 
 @if (user == null)
@@ -15,6 +16,7 @@
         <input type="email" id="email-address" name="email-address" class="form-control" required>
         <label for="password" class="form-label">Password:</label>
         <input type="password" id="password" name="password" class="form-control" required>
+        <input type="hidden" id="redirect-path" name="redirect-path" class="form-control" value="@redirectPath">
         <button type="submit" class="btn btn-primary mt-2">Log in</button>
     </form>
 }
