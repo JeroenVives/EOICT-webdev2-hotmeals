@@ -1,0 +1,21 @@
+services:
+  dotnet-hotMeals-db-dvlp:
+    container_name: dotnet-hotMeals-db-dvlp
+    image: mariadb
+    ports:
+     - 3307:3306
+    environment:
+     - MARIADB_ROOT_PASSWORD=root
+     - MARIADB_DATABASE=school
+     - TZ=Europe/Brussels
+    restart: unless-stopped
+  dotnet-hotMeals-dbadmin-dvlp:
+    container_name: dotnet-hotMeals-dbadmin-dvlp
+    image: phpmyadmin
+    ports:
+     - 81:80
+    environment:
+     - PMA_HOST=dotnet-hotMeals-db-dvlp
+    depends_on:
+     - dotnet-hotMeals-db-dvlp
+    restart: unless-stopped
