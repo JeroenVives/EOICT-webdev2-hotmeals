@@ -43,5 +43,33 @@ namespace HotMeals.Controllers
             ViewBag.IdentityResult = identityResult;
             return View();
         }
+
+        [HttpGet]
+        [Route("loginout")]
+        public async Task<IActionResult> LogInOutGet()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.User = user;
+            return View();
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> LogInPost([FromForm(Name = "email-address")] string email, string password)
+        {
+            var signInResult = await _signInManager.PasswordSignInAsync(email, password, false, false);
+            ViewBag.SignInResult = signInResult;
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.User = user;
+            return View();
+        }
+
+        [HttpPost]
+        [Route("logout")]
+        public async Task<IActionResult> LogOutPost()
+        {
+            await _signInManager.SignOutAsync();
+            return View();
+        }
     }
 }
