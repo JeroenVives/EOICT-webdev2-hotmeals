@@ -1,13 +1,9 @@
 using HotMeals.Data.School;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("SchoolDatabase") ?? throw new InvalidOperationException("Connection string 'SchoolContext' not found.");
-var serverVersion = new MariaDbServerVersion(new Version(12, 1, 2));
-
-builder.Services.AddDbContext<SchoolContext>(options => options.UseMySql(connectionString, serverVersion));
+builder.Services.AddDbContext<SchoolContext>();
 
 builder.Services.AddControllersWithViews();
 
@@ -19,5 +15,11 @@ var app = builder.Build();
 app.UseStaticFiles();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<SchoolContext>();
+    await dbContext.Database.MigrateAsync();
+}
 
 app.Run();

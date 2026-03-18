@@ -1,17 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using HotMeals.Models.Enums;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotMeals.Data.School;
 
 public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
 {
-    public SchoolContext()
-    {
-    }
-
-    public SchoolContext(DbContextOptions<SchoolContext> options)
+    private readonly IConfiguration _configuration;
+    public SchoolContext(DbContextOptions<SchoolContext> options, IConfiguration configuration)
         : base(options)
     {
+        _configuration = configuration;
     }
 
     public virtual DbSet<Allergen> Allergens { get; set; }
@@ -38,9 +38,53 @@ public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
 
     public virtual DbSet<SchoolUser> SchoolUsers { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+
+        var connectionString = _configuration.GetConnectionString("SchoolDatabase") ?? throw new InvalidOperationException("Connection string 'SchoolContext' not found.");
+        var serverVersion = new MariaDbServerVersion(new Version(12, 1, 2));
+
+        optionsBuilder.UseMySql(connectionString, serverVersion);
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        var hasher = new PasswordHasher<IdentityUser>();
+
+        var teacherEmail = "teacher@vives.be";
+        var normalizedTeacherEmail = teacherEmail.ToUpperInvariant();
+        var teacher = new SchoolUser
+        {
+            Id = 1,
+            FirstName = "Anna",
+            LastName = "Bossuyt",
+            UserName = teacherEmail,
+            NormalizedUserName = normalizedTeacherEmail,
+            Email = teacherEmail,
+            NormalizedEmail = normalizedTeacherEmail,
+            PasswordHash = hasher.HashPassword(null, "Teach123!"),
+            SecurityStamp = Guid.NewGuid().ToString()
+        };
+
+        var managerEmail = "manager@vives.be";
+        var normalizedManagerEmail = managerEmail.ToUpperInvariant();
+        var manager = new SchoolUser
+        {
+            Id = 2,
+            FirstName = "Chris",
+            LastName = "De Donder",
+            UserName = managerEmail,
+            NormalizedUserName = normalizedManagerEmail,
+            Email = managerEmail,
+            NormalizedEmail = normalizedManagerEmail,
+            PasswordHash = hasher.HashPassword(null, "Manage123!"),
+            SecurityStamp = Guid.NewGuid().ToString()
+        };
+
+        modelBuilder.Entity<SchoolUser>().HasData(teacher, manager);
 
         modelBuilder.Entity<Allergen>(entity =>
         {
@@ -70,7 +114,6 @@ public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
                     {
                         j.HasKey("AllergenId", "IngredientId").HasName("PRIMARY");
                         j.ToTable("allergen_presences");
-                        j.HasIndex(new[] { "AllergenId" }, "fk__allergen_presences__allergen_id");
                         j.HasIndex(new[] { "IngredientId" }, "fk__allergen_presences__ingredient_id");
                         j.IndexerProperty<int>("AllergenId")
                             .HasColumnType("int(11)")
@@ -88,8 +131,6 @@ public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
             entity.ToTable("children");
 
             entity.HasIndex(e => e.ClassId, "fk__children__class_id");
-
-            entity.HasIndex(e => e.UserId, "fk__children__user_id");
 
             entity.Property(e => e.UserId)
                 .HasColumnType("int(11)")
@@ -127,7 +168,6 @@ public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
                         j.HasKey("ChildId", "AllergenId").HasName("PRIMARY");
                         j.ToTable("allergen_sensitivities");
                         j.HasIndex(new[] { "AllergenId" }, "fk__allergen_sensitivities__allergen_id");
-                        j.HasIndex(new[] { "ChildId" }, "fk__allergen_sensitivities__child_id");
                         j.IndexerProperty<int>("ChildId")
                             .HasColumnType("int(11)")
                             .HasColumnName("child_id");
@@ -249,8 +289,6 @@ public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
 
             entity.ToTable("meal_ingredients");
 
-            entity.HasIndex(e => e.HotMealId, "fk__meal_ingredients__hot_meal_id");
-
             entity.HasIndex(e => e.IngredientId, "fk__meal_ingredients__ingredient_id");
 
             entity.Property(e => e.HotMealId)
@@ -278,8 +316,6 @@ public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
 
             entity.ToTable("parents");
 
-            entity.HasIndex(e => e.UserId, "fk__parents__user_id");
-
             entity.Property(e => e.UserId)
                 .HasColumnType("int(11)")
                 .HasColumnName("user_id");
@@ -305,7 +341,6 @@ public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
                         j.HasKey("ParentId", "ChildId").HasName("PRIMARY");
                         j.ToTable("parental_relations");
                         j.HasIndex(new[] { "ChildId" }, "fk__parental_relations__child_id");
-                        j.HasIndex(new[] { "ParentId" }, "fk__parental_relations__parent_id");
                         j.IndexerProperty<int>("ParentId")
                             .HasColumnType("int(11)")
                             .HasColumnName("parent_id");
@@ -342,8 +377,6 @@ public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
 
             entity.ToTable("staff");
 
-            entity.HasIndex(e => e.UserId, "fk__staff__user_id");
-
             entity.Property(e => e.UserId)
                 .HasColumnType("int(11)")
                 .HasColumnName("user_id");
@@ -372,7 +405,6 @@ public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
                         j.HasKey("StaffId", "ClassId").HasName("PRIMARY");
                         j.ToTable("teachers");
                         j.HasIndex(new[] { "ClassId" }, "fk__teachers__class_id");
-                        j.HasIndex(new[] { "StaffId" }, "fk__teachers__staff_id");
                         j.IndexerProperty<int>("StaffId")
                             .HasColumnType("int(11)")
                             .HasColumnName("staff_id");
@@ -380,6 +412,9 @@ public partial class SchoolContext : IdentityUserContext<SchoolUser, int>
                             .HasColumnType("int(11)")
                             .HasColumnName("class_id");
                     });
+            entity.HasData(
+                new Staff { UserId = teacher.Id, Role = RoleEnum.teaching.ToString() },
+                new Staff { UserId = manager.Id, Role = RoleEnum.management.ToString() });
         });
 
         OnModelCreatingPartial(modelBuilder);
