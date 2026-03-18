@@ -1,4 +1,7 @@
 db/config/
+appsettings.json
+PublishProfiles/
+dotnet-tools.json
 
 ################
 # ASP.NET Core #
